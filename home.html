@@ -87,16 +87,18 @@
   
   <script>
     
-    window.onload = function() {
-          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          console.log(currentUser);
-          if (currentUser) {
-              document.getElementById('menuUsername').textContent = `Welcome, ${currentUser.username}!`;
-          } else {
-              // If no user is logged in, redirect to login page
-              window.location.href = 'index.html';
-          }
-      }
+   window.onload = function() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  console.log(currentUser);
+  if (currentUser) {
+    document.getElementById('menuUsername').textContent = `Welcome, ${currentUser.username}!`;
+    // Add this line to update cards when user loads the page
+    updateCards(); 
+  } else {
+    // If no user is logged in, redirect to login page
+    window.location.href = 'index.html';
+  }
+}
     
     // Import the functions you need from the SDKs you need
     // TODO: Add SDKs for Firebase products that you want to use
@@ -118,36 +120,52 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    async function updateCards() {
-      const userRef = db.collection('users');
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      const userQuery = await userRef
-            .where('name', '==', currentUser.username.toLowerCase())
-            .get();
+async function updateCards() {
+  const userRef = db.collection('users');
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  
+  // Check if user exists in database
+  try {
+    const userQuery = await userRef
+      .where('name', '==', currentUser.username.toLowerCase())
+      .get();
+    
+    if (!userQuery.empty) {
+      // User exists, update their data
+      const doc = userQuery.docs[0];
+      console.log("Found user document:", doc.id, doc.data());
       
-      if (!userQuery.empty) {
-            const doc = userQuery.docs[0];
-
-        
-            const currentLogins = doc.data().logins;
-            const currentCards = doc.data().cards;
-            const newLogins = currentLogins + 1;
-            const newCards = currentCards.concat(["01-5"]);
-            console.log(doc.data());
-            console.log(doc.data().logins);
-            
-            await doc.ref.update({
-                cards: newCards,
-                logins: newLogins
-            });
-      } else {
-      await userRef.add({
+      const currentLogins = doc.data().logins || 0;
+      const currentCards = doc.data().cards || [];
+      const newLogins = currentLogins + 1;
+      const newCards = currentCards.concat(["01-5"]);
+      
+      try {
+        await doc.ref.update({
+          cards: newCards,
+          logins: newLogins
+        });
+        console.log("User document updated successfully");
+      } catch (error) {
+        console.error("Error updating user document:", error);
+      }
+    } else {
+      // User doesn't exist, create a new document
+      try {
+        const newDoc = await userRef.add({
           name: currentUser.username.toLowerCase(),
-          cards: [],
-          logins: 0
-      });
+          cards: ["01-5"],
+          logins: 1
+        });
+        console.log("New user document created with ID:", newDoc.id);
+      } catch (error) {
+        console.error("Error creating user document:", error);
       }
     }
+  } catch (error) {
+    console.error("Error querying for user:", error);
+  }
+}
 
     function handleLogout() {
         localStorage.removeItem('isLoggedIn');
