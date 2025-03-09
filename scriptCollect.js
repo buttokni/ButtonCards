@@ -665,6 +665,8 @@ let code = "";
 
 function openPack() {
 
+  document.querySelector(".logout-button").style.display = "none";
+  
   let cardPic = document.querySelector(".pack");
   if (num != 0) {
     cardPic.addEventListener("click", flipCard(cardPic, pack));
@@ -884,6 +886,8 @@ async function results(pack) {
   let time = d.getTime();
   let rand = Math.floor(Math.random() * 9) + 1;
 
+  document.querySelector(".logout-button").style.display = "inline-block";
+  
   let newID = rand * time;
   ID.innerHTML = "UPID: " + rand + (Math.floor(Math.random() * 999) + 1) + newID + (Math.floor(Math.random() * 999) + 2);
   ID.style.color = "black";
@@ -933,6 +937,8 @@ function resetPackAndOpen() {
     cardResult.src = "Pack.png";
     cardResult.style.width = "0px";
   }
+
+  document.querySelector(".logout-button").style.display = "none";
   
   let cardPic = document.querySelector(".pack");
   cardPic.src = "Pack.png";
