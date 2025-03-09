@@ -922,7 +922,41 @@ async function results(pack) {
     cardResult.src = "img/" + pack[i];
     cardResult.style.width = "100px";
   }
-  document.getElementById("openAgain").style.display = "inline-block";
+}
+
+function resetPackAndOpen() {
+  num = 0;
+  pack = [];
+  
+  for (let i = 0; i < 10; i++) {
+    let cardResult = document.querySelector(".i" + i);
+    cardResult.src = "Pack.png";
+    cardResult.style.width = "0px";
+  }
+  
+  let cardPic = document.querySelector(".pack");
+  cardPic.src = "Pack.png";
+  cardPic.style.width = "300px";
+  
+  let resultBack = document.querySelector(".resultList");
+  resultBack.style.backgroundColor = "#00CCEE";
+  resultBack.style.border = "none";
+  
+  let resTitle = document.querySelector(".resultTitle");
+  resTitle.style.color = "#00CCEE";
+  
+  let ID = document.querySelector(".UPID");
+  ID.style.color = "#00CCEE";
+  
+  let cardsOut = document.querySelector(".cardsList");
+  cardsOut.style.color = "#00CCEE";
+  
+  let PCodeOut = document.querySelector(".PCode");
+  PCodeOut.style.color = "#00CCEE";
+  
+  document.getElementById("openAgain").style.display = "none";
+  
+  openPack();
 }
 
 function shuffle(array) {
