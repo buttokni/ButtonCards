@@ -666,15 +666,6 @@ let code = "";
 function openPack() {
   document.querySelector(".logout-button").style.display = "none";
   
-  num = 0;
-  pack = [];
-  
-  for (let i = 0; i < 10; i++) {
-    let cardResult = document.querySelector(".i" + i);
-    cardResult.src = "Pack.png";
-    cardResult.style.width = "0px";
-  }
-  
   let cardPic = document.querySelector(".pack");
   if (num != 0) {
     cardPic.addEventListener("click", flipCard(cardPic, pack));
