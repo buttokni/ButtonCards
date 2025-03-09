@@ -885,7 +885,7 @@ async function results(pack) {
   let time = d.getTime();
   let rand = Math.floor(Math.random() * 9) + 1;
 
-  document.querySelector(".logout-button").style.display = "inline-block";
+  document.querySelector(".logout-button").style.display = "none";
   
   let newID = rand * time;
   ID.innerHTML = "UPID: " + rand + (Math.floor(Math.random() * 999) + 1) + newID + (Math.floor(Math.random() * 999) + 2);
@@ -970,7 +970,8 @@ function shuffle(array) {
 
 function checkCode() {
 
-
+  document.querySelector(".logout-button").style.display = "inline-block";
+  
   code = document.getElementById("packCode").value;
   let valid = false;
   console.log("Check");
