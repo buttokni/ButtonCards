@@ -976,30 +976,6 @@ function checkCode() {
   let valid = false;
   console.log("Check");
 
-  //OVERRIDE
-  if (code == "Bday26") {
-    console.log("Win");
-    let codeTitle = document.querySelector(".codeTitle");
-    codeTitle.innerHTML = "";
-
-    let codeBox = document.querySelector("#packCode");
-    codeBox.style.width = 0;
-    codeBox.style.padding = 0;
-    codeBox.style.border = 0;
-
-    let enterButton = document.querySelector("#enter");
-    enterButton.style.width = 0;
-    enterButton.style.padding = 0;
-    enterButton.style.border = 0;
-    enterButton.innerHTML = "";
-
-    let cardPic = document.querySelector(".pack");
-    cardPic.style.width = "300px";
-    winPack();
-    return;
-  }
-
-
   for (let i = 0; i < CODES.length; i++) {
     console.log("Checking");
     if (code == CODES[i]) {
