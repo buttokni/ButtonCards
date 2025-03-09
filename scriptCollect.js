@@ -922,6 +922,7 @@ async function results(pack) {
     cardResult.src = "img/" + pack[i];
     cardResult.style.width = "100px";
   }
+  document.getElementById("openAgain").style.display = "inline-block";
 }
 
 function shuffle(array) {
